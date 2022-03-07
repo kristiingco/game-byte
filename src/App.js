@@ -10,7 +10,7 @@ import ShopPage from "./pages/shop/ShopPage";
 import Header from "./components/header/Header";
 import SignInAndSignUp from "./pages/sign-in-and-sign-up-page/SignInAndSignUp";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
-import { setCurrentUser } from "./redux/user/user-actions";
+import { setCurrentUser } from "./redux/user/user.actions";
 
 class App extends Component {
     unsubscribeFromAuth = null;
