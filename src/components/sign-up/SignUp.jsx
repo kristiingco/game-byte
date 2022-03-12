@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 import FormInput from "../form-input/FormInput";
 import CustomButton from "../custom-button/CustomButton";
@@ -100,7 +99,5 @@ class SignUp extends Component {
         );
     }
 }
-
-SignUp.propTypes = {};
 
 export default SignUp;

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 import "./SignIn.scss";
 
@@ -76,7 +75,5 @@ class SignIn extends Component {
         );
     }
 }
-
-SignIn.propTypes = {};
 
 export default SignIn;
