@@ -1,5 +1,5 @@
-const SHOP_DATA = [
-    {
+const SHOP_DATA = {
+    games: {
         id: "fc0f83d69ac54145b8d97c757707ab92",
         title: "Games",
         routeName: "games",
@@ -69,7 +69,7 @@ const SHOP_DATA = [
             },
         ],
     },
-    {
+    consoles: {
         id: "dafaebd35a494626a7e6b389f6fa7bfc",
         title: "Consoles",
         routeName: "consoles",
@@ -132,7 +132,7 @@ const SHOP_DATA = [
             },
         ],
     },
-    {
+    controllers: {
         id: "50f335080e624b59adf269f8e7f8162a",
         title: "Controllers",
         routeName: "controllers",
@@ -174,7 +174,7 @@ const SHOP_DATA = [
             },
         ],
     },
-    {
+    keyboards: {
         id: "528f6d96f5664af9a74e5bc0103253f0",
         title: "Keyboards",
         routeName: "keyboards",
@@ -230,7 +230,7 @@ const SHOP_DATA = [
             },
         ],
     },
-    {
+    headsets: {
         id: "045b5c3c2b544cb4964ff3064bedbbb6",
         title: "Headsets",
         routeName: "headsets",
@@ -272,6 +272,6 @@ const SHOP_DATA = [
             },
         ],
     },
-];
+};
 
 export default SHOP_DATA;
