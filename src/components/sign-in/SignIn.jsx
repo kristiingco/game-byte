@@ -1,79 +1,95 @@
-import React, { Component } from "react";
-
-import "./SignIn.scss";
+import { useState } from "react";
 
 import FormInput from "../form-input/FormInput";
-import CustomButton from "../custom-button/CustomButton";
+import CustomButton, {
+    BUTTON_TYPE_CLASSES,
+} from "../custom-button/CustomButton";
 
-import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
+import {
+    signInWithGooglePopup,
+    signInAuthUserWithEmailAndPassword,
+} from "../../utils/firebase/firebase.utils";
 
-class SignIn extends Component {
-    constructor(props) {
-        super(props);
+import { SignInContainer, ButtonsContainer } from "./SignInStyles.jsx";
 
-        this.state = {
-            email: "",
-            password: "",
-        };
-    }
+const defaultFormFields = {
+    email: "",
+    password: "",
+};
 
-    handleSubmit = async (event) => {
+const SignIn = () => {
+    const [formFields, setFormFields] = useState(defaultFormFields);
+    const { email, password } = formFields;
+
+    const resetFormFields = () => {
+        setFormFields(defaultFormFields);
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const { email, password } = this.state;
-
         try {
-            await auth.signInWithEmailAndPassword(email, password);
-            this.setState = {
-                email: "",
-                password: "",
-            };
+            await signInAuthUserWithEmailAndPassword(email, password);
+            resetFormFields();
         } catch (error) {
-            console.log(error);
+            switch (error.code) {
+                case "auth/wrong-password":
+                    alert("Incorrect password for email");
+                    break;
+                case "auth/user-not-found":
+                    alert("No user associated with this email");
+                    break;
+                default:
+                    console.log(error);
+            }
         }
     };
 
-    handleChange = (event) => {
-        const { value, name } = event.target;
+    const handleChange = (event) => {
+        const { name, value } = event.target;
 
-        this.setState({ [name]: value });
+        setFormFields({ ...formFields, [name]: value });
     };
 
-    render() {
-        return (
-            <div className="sign-in">
-                <h2>I already have an account</h2>
-                <span>Sign in with your email and password.</span>
+    const logGoogleUser = async () => {
+        await signInWithGooglePopup();
+    };
+    return (
+        <SignInContainer>
+            <h2>Already have an account?</h2>
+            <span>Sign in with your email and password</span>
+            <form onSubmit={handleSubmit}>
+                <FormInput
+                    label="Email"
+                    type="email"
+                    required
+                    onChange={handleChange}
+                    name="email"
+                    value={email}
+                />
 
-                <form onSubmit={this.handleSubmit}>
-                    <FormInput
-                        name="email"
-                        type="email"
-                        value={this.state.email}
-                        handleChange={this.handleChange}
-                        label="Email Address"
-                        required
-                    />
+                <FormInput
+                    label="Password"
+                    type="password"
+                    required
+                    onChange={handleChange}
+                    name="password"
+                    value={password}
+                />
 
-                    <FormInput
-                        name="password"
-                        type="password"
-                        value={this.state.password}
-                        handleChange={this.handleChange}
-                        label="Password"
-                        required
-                    />
-
-                    <div className="buttons">
-                        <CustomButton type="submit">Sign In</CustomButton>
-                        <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
-                            Sign In With Google
-                        </CustomButton>
-                    </div>
-                </form>
-            </div>
-        );
-    }
-}
+                <ButtonsContainer>
+                    <CustomButton type="submit">Sign In</CustomButton>
+                    <CustomButton
+                        type="button"
+                        onClick={logGoogleUser}
+                        buttonType={BUTTON_TYPE_CLASSES.google}
+                    >
+                        Google Sign In
+                    </CustomButton>
+                </ButtonsContainer>
+            </form>
+        </SignInContainer>
+    );
+};
 
 export default SignIn;
